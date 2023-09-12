@@ -1,0 +1,40 @@
+{
+  "name": "youloge.plus",
+  "private": false,
+  "version": "1.0.5",
+  "author": "Youloge",
+  "description": "youloge.com website dedicated library",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "keywords": [
+    "youloge",
+    "sso",
+    "play",
+    "payment"
+  ],
+  "main": "./dist/youloge.plus.umd.js",
+  "module": "./dist/youloge.plus.es.js",
+  "types": "./index.d.ts",
+  "unpkg": "dist/youloge.plus.umd.js",
+  "jsdelivr": "dist/youloge.plus.umd.js",
+  "exports": {
+    "types": "./index.d.ts",
+    "import": "./dist/youloge.plus.es.js",
+    "require": "./dist/youloge.plus.umd.js"
+  },
+  "devDependencies": {
+    "vite": "^4.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youfeed/youloge.plus.git"
+  }
+}
