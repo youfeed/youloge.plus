@@ -12,7 +12,7 @@
 > - 主动调用 `youloge.plus.METHOD(config)`方法，通过`.then`和`.catch`接收回调,可添加`.listener` 监听变化
 
 #### 更新日志
-
+- 1.0.7 修复弹窗`fiexd` 样式问题
 - 1.0.6 修复`selector`设置错误情况下走`弹窗式`遮罩层不会关闭问题
 - 1.0.5 统一风格`ukey 初始化` + `selector` 支持内嵌式渲染
 - 0.0.9 前置服务`captcha`人机验证，归入到`匿名账户`体系

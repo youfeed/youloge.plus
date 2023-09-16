@@ -8,7 +8,7 @@ let PLUS = plus({
 document.querySelector('#sso').onclick = ()=>{
   PLUS.sso({
     // selector:null,
-    selector:'#sso',
+    selector:'#sso3',
   }).listener(res=>{
     console.info(res)
   }).then(res=>{
