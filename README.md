@@ -12,6 +12,7 @@
 > - 主动调用 `youloge.plus.METHOD(config)`方法，通过`.then`和`.catch`接收回调,可添加`.listener` 监听变化
 
 #### 更新日志
+- 1.0.8 引入`curl` 参数：直接对接开发者接口
 - 1.0.7 修复弹窗`fiexd` 样式问题
 - 1.0.6 修复`selector`设置错误情况下走`弹窗式`遮罩层不会关闭问题
 - 1.0.5 统一风格`ukey 初始化` + `selector` 支持内嵌式渲染
@@ -24,6 +25,7 @@
 ```js
 let PLUS = youloge.plus({
   ukey:'', // 必填*用于加密数据区分开发者
+  curl:'' // 开发者接口地址 不填为引用来源根地址;使用[Youloge.rpc 通信协议](https://docs.youloge.com/lic/rpc)
 });
 ```
 #### 弹窗式 & 内嵌式
