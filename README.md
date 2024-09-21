@@ -24,8 +24,8 @@
 #### 初始化
 ```js
 let PLUS = youloge.plus({
-  ukey:'', // 必填*用于加密数据区分开发者
-  curl:'' // 可选*同步通知接口地址[网址参数不变，会替换路劲部分];
+  apikey:'', // 必填*用于加密数据区分开发者
+  notify:'' // 可选*同步通知接口地址[网址参数不变，会替换路劲部分];
   // 例如：curl:'https://www.xxxx.com/mep/dashboard?a=URL_ADDRESS&b=URL_ADDRESS'
   // 支付通知地址:https://www.xxxx.com/`wallet/versive`?a=URL_ADDRESS&b=URL_ADDRESS
 });

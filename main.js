@@ -2,7 +2,8 @@ import './style.css'
 import plus from './lib/index.js'
 
 let PLUS = plus({
-  ukey:'2UsDQYxLJOpdXVWRi4ujVAnIHZUNww92EYAeC6GsQs9q19ccNYDlnFrTe4PGIxsEBTFjjl4w8IFyDzQtQIWMWHpufbals5DrZHsJ3m0VFMMit4FAByb4X00/wqWS1kEy'
+  apikey:'2UsDQYxLJOpdXVWRi4ujVAnIHZUNww92EYAeC6GsQs9q19ccNYDlnFrTe4PGIxsEBTFjjl4w8IFyDzQtQIWMWHpufbals5DrZHsJ3m0VFMMit4FAByb4X00/wqWS1kEy',
+  notify:'https://github.com/yaroslaff/ws-emit'
 })
 console.log('PLUS',PLUS)
 // 调试单点登录
