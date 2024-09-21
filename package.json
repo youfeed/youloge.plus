@@ -1,7 +1,7 @@
 {
   "name": "youloge.plus",
   "private": false,
-  "version": "1.0.8",
+  "version": "1.2.0",
   "author": "Youloge",
   "description": "youloge.com website dedicated library",
   "type": "module",
@@ -16,9 +16,11 @@
   ],
   "keywords": [
     "youloge",
-    "sso",
-    "play",
-    "payment"
+    "pay",
+    "login",
+    "video",
+    "payment",
+    "captcha"
   ],
   "main": "./dist/youloge.plus.umd.js",
   "module": "./dist/youloge.plus.es.js",

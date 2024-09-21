@@ -1,7 +1,7 @@
 # Youloge.Plus 开放扩展服务 ⚡ 当前处于非正式版 🚧
 
-> * 前端开放服务，可以快速集成`人机验证` + `登录注册` `转账支付` `视频点播` 服务。
-> * 先到 [任意开发者管理后台-apikey](https://www.youloge.com) 获取一对加解密密钥(`ukey/secret`)。
+> * 前端开放服务，可以快速集成`人机验证`,`登录注册`,`转账支付`,`视频点播` 服务。
+> * 先到 [任意开发者管理后台-apikey](https://www.youloge.com) 获取一对加解密密钥对(`apikey/secret`)。
 > * 项目开源，欢迎提交PR，或者提交Issue。
 
 ### [💡 ⚡️ 🛠️ 📦 🔩 🔑 - 接口来源-开放API文档 ](https://youfeed.github.io/plus)
@@ -9,24 +9,25 @@
 
 > - 建议直接引入CDN 即可使用  `2.18 kB │ gzip: 1.07 kB`
 > - `https://unpkg.com/youloge.plus`或者`https://cdn.jsdelivr.net/npm/youloge.plus`
-> - 主动调用 `youloge.plus.METHOD(config)`方法，通过`.then`和`.catch`接收回调,可添加`.listener` 监听变化
+> - 主动调用 `youloge.plus.METHOD(config)`方法，通过`.then`和`.catch`接收回调,可添加`.emit` 监听变化
 
 #### 更新日志
-- 1.0.8 引入`curl` 参数：直接对接开发者接口
+- 1.2.0 优化监听事件，增加窗口新建销毁处理逻辑
+- 1.0.8 引入`notify` 参数：直接对接开发者接口
 - 1.0.7 修复弹窗`fiexd` 样式问题
 - 1.0.6 修复`selector`设置错误情况下走`弹窗式`遮罩层不会关闭问题
-- 1.0.5 统一风格`ukey 初始化` + `selector` 支持内嵌式渲染
+- 1.0.5 统一风格`apikey 初始化` + `selector` 支持内嵌式渲染
 - 0.0.9 前置服务`captcha`人机验证，归入到`匿名账户`体系
-- 0.0.2 增加`sso`单点登录服务
+- 0.0.2 增加`login`单点登录服务(邮箱匿名代理)
 - 0.0.1 初始化项目 构建逻辑 统一模块
 
 ### 开始使用
-#### 初始化
+#### 初始化 
 ```js
 let PLUS = youloge.plus({
   apikey:'', // 必填*用于加密数据区分开发者
   notify:'' // 可选*同步通知接口地址[网址参数不变，会替换路劲部分];
-  // 例如：curl:'https://www.xxxx.com/mep/dashboard?a=URL_ADDRESS&b=URL_ADDRESS'
+  // 例如：notify:'https://www.xxxx.com/mep/dashboard?a=URL_ADDRESS&b=URL_ADDRESS'
   // 支付通知地址:https://www.xxxx.com/`wallet/versive`?a=URL_ADDRESS&b=URL_ADDRESS
 });
 ```
@@ -73,10 +74,10 @@ PLUS.captcha({
 
 ## 单点登录服务 `METHOD`=`sso` 
 
-- `uuid` 是唯一的且使用不同的`ukey`获取同一个用户 `uuid`都是一样的
+- `uuid` 是唯一的且使用不同的`apikey`获取同一个用户 `uuid`都是一样的
 - `signature`可以解密出`uuid:用户ID expire:过期时间 singer:用户凭证`7200秒，3小时
 - `secret` 专门用来刷新凭证`7天有效`,过期必须手动登录再次刷新。
-- 开发者凭证也是该接口：(Ukey和Ukey的邮箱是同一人，即视为开发者)
+- 开发者凭证也是该接口：(apikey和apikey的邮箱是同一人，即视为开发者)
 
 ``` js
 PLUS.sso({
@@ -132,7 +133,7 @@ PLUS.payment({
 
 ## 关于数据校验解密
 
-`ukey` - 暴漏给前端,用于调用各种开发服务
+`apikey` - 暴漏给前端,用于调用各种开发服务
 
 `secret` - 专门用于后端`AES-256-CBC * 2`解密(固定IP服务端解密使用`不要暴漏`)
 
