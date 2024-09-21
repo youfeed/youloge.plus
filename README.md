@@ -25,7 +25,9 @@
 ```js
 let PLUS = youloge.plus({
   ukey:'', // 必填*用于加密数据区分开发者
-  curl:'' // 开发者接口地址 不填为引用来源根地址;使用[Youloge.rpc 通信协议](https://docs.youloge.com/lic/rpc)
+  curl:'' // 可选*同步通知接口地址[网址参数不变，会替换路劲部分];
+  // 例如：curl:'https://www.xxxx.com/mep/dashboard?a=URL_ADDRESS&b=URL_ADDRESS'
+  // 支付通知地址:https://www.xxxx.com/`wallet/versive`?a=URL_ADDRESS&b=URL_ADDRESS
 });
 ```
 #### 弹窗式 & 内嵌式
@@ -38,7 +40,7 @@ let PLUS = youloge.plus({
 PLUS.METHOD({
   selector:'#id' // 只取查询到的第一个`Element`
   // 其他配置参数
-}).listener(data=>{
+}).emit(data=>{
   // 监听事件(流程尚未结束)(可选项) * 在`then catch`之前添加监听
 }).then(res=>{
   // 处理成功(流程结束)

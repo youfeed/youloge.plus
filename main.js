@@ -4,6 +4,7 @@ import plus from './lib/index.js'
 let PLUS = plus({
   ukey:'2UsDQYxLJOpdXVWRi4ujVAnIHZUNww92EYAeC6GsQs9q19ccNYDlnFrTe4PGIxsEBTFjjl4w8IFyDzQtQIWMWHpufbals5DrZHsJ3m0VFMMit4FAByb4X00/wqWS1kEy'
 })
+console.log('PLUS',PLUS)
 // 调试单点登录
 document.querySelector('#sso').onclick = ()=>{
   PLUS.sso({
@@ -17,23 +18,22 @@ document.querySelector('#sso').onclick = ()=>{
     console.log(err)
   })
 }
-console.log(PLUS)
-document.querySelector('#captcha').onclick = ()=>{
-  let captcha = PLUS.captcha({
-    width:'360'
-  }).then(res=>{
-    console.log('#captcha',res)
-  })
-  .catch(err=>{
-    console.log('#captcha',err)
-  })
-  console.log(captcha)
-}
+// document.querySelector('#captcha').onclick = ()=>{
+//   let captcha = PLUS.captcha({
+//     width:'360'
+//   }).then(res=>{
+//     console.log('#captcha',res)
+//   })
+//   .catch(err=>{
+//     console.log('#captcha',err)
+//   })
+//   console.log(captcha)
+// }
 
 document.querySelector('#hello').onclick = ()=>{
 
   // let ppp = plus({ukey:'TKoLtLJatVyqbbNWQFb_yMdoFzoWx40b9I7JzUYwRORqiHB7MxNdfqpN8hnSsx3hdbThUbauq0M60DNkZQZDrQ=='})
-  let sso = PLUS.sso({width:'360',close:true,selector:'#ss'})
+  let login = PLUS.login({width:'360',close:true,selector:'#ss'})
   // let ssos = ppp.sso({width:'360'})
   // console.log(plus,ppp,sso)
   // let P = plus.sso({
@@ -43,17 +43,17 @@ document.querySelector('#hello').onclick = ()=>{
   //   height:'380',
   //   money:0.01,
   // })
-  // console.log(P)
+  console.log(login)
 
+  login.emit(err=>{
+    console.log('listener',err)
+  })
   
-  sso.then(res=>{
+  login.then(res=>{
     console.log('res',res)
   }).catch(err=>{
     console.log('err',err)
   })
 
-  sso.listener(err=>{
-    console.log('listener',err)
-  })
 
 }
