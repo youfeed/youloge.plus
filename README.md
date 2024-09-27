@@ -7,9 +7,9 @@
 ### [💡 ⚡️ 🛠️ 📦 🔩 🔑 - 接口来源-开放API文档 ](https://youfeed.github.io/plus)
 
 
-> - 建议直接引入CDN 即可使用  `2.18 kB │ gzip: 1.07 kB`
+> - 建议直接引入CDN 即可使用  `2.77 kB │ gzip: 1.27 kB`
 > - `https://unpkg.com/youloge.plus`或者`https://cdn.jsdelivr.net/npm/youloge.plus`
-> - 主动调用 `youloge.plus.METHOD(config)`方法，通过`.then`和`.catch`接收回调,可添加`.emit` 监听变化
+> - 主动调用 `youloge.plus.METHOD(config)`方法，通过`.then`和`.catch`接收回调,还可添加`.emit` 监听变化
 
 #### 更新日志
 - 1.9.1 添加`utils`辅助函数，统一事件
