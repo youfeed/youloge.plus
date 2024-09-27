@@ -2,17 +2,34 @@ import './style.css'
 import plus from './lib/index.js'
 
 let PLUS = plus({
-  // apikey:'pt0ALFviHU5yHTb0acTkLAF7Tg53BP8ld7F3pHqVMDBI233JVN0CykDFx9qZDxWteH1XxN0r__54h1dY_OzqhtRCFoIoLQWcyflHkarkp0o',
+  debug:'http://localhost:4173', // false
   apikey:'it-lk1ER3z-iVEDdHRtIxh-jwymtE65cfZwjh2OUOYbBg3E6Z54DILcVgfbi5KYyn5J0OVyCTReXCIaFtgGxdw',
-  notify:'https://www.youloge.com/yaroslaff/ws-emit?site=125245'
+  notify:'https://www.youloge.com/yaroslaff/ws-emit?site=125245',
 })
 console.log('PLUS',PLUS)
+
+document.querySelector('#pay').onclick = ()=>{
+  PLUS.pay({
+    money:0.01,
+    width:'360',
+    height:'380',
+  }).emit(res=>{
+    console.log(777777777,'pay.emit',res)
+  }).then(res=>{
+    console.log(777777777,'pay.then',res)
+  }).catch(err=>{
+    
+  })
+}
 // 调试单点登录
-document.querySelector('#sso').onclick = ()=>{
-  console.info(777777777,'sso.emit')
-  PLUS.sso({
-    // selector:null,
-    selector:'#sso3',
+document.querySelector('#login').onclick = ()=>{
+  PLUS.login({
+    selector:'#login',
+    // styled:{
+    //   dialog:'',
+    //   iframe:'',
+    // }
+    
   }).emit(res=>{
     console.info(777777777,'sso.emit',res)
   }).then(res=>{
@@ -21,10 +38,14 @@ document.querySelector('#sso').onclick = ()=>{
     console.log(777777777,'sso.catch',err)
   })
 }
+// 调试人机验证
 document.querySelector('#captcha').onclick = ()=>{
   const captcha = PLUS.captcha({
-    width:'360'
+    router:'a',
+    params:{}
   });
+  console.log(captcha)
+  
   captcha.emit(res=>{
     console.log('#captcha.emit',res)
   })
@@ -34,13 +55,11 @@ document.querySelector('#captcha').onclick = ()=>{
   }).catch(err=>{
     console.log('#captcha.catch',err)
   })
-  console.log(captcha)
 }
 
 document.querySelector('#hello').onclick = ()=>{
 
-  // let ppp = plus({ukey:'TKoLtLJatVyqbbNWQFb_yMdoFzoWx40b9I7JzUYwRORqiHB7MxNdfqpN8hnSsx3hdbThUbauq0M60DNkZQZDrQ=='})
-  let login = PLUS.login({width:'360',close:true,selector:0})
+  let login = PLUS.login({width:'360',close:true})
   // let ssos = ppp.sso({width:'360'})
   // console.log(plus,ppp,sso)
   // let P = plus.sso({
