@@ -8,19 +8,7 @@ let PLUS = plus({
 })
 console.log('PLUS',PLUS)
 
-document.querySelector('#pay').onclick = ()=>{
-  PLUS.pay({
-    money:0.01,
-    width:'360',
-    height:'380',
-  }).emit(res=>{
-    console.log(777777777,'pay.emit',res)
-  }).then(res=>{
-    console.log(777777777,'pay.then',res)
-  }).catch(err=>{
-    
-  })
-}
+
 // 调试单点登录
 document.querySelector('#login').onclick = ()=>{
   PLUS.login({
@@ -41,8 +29,9 @@ document.querySelector('#login').onclick = ()=>{
 // 调试人机验证
 document.querySelector('#captcha').onclick = ()=>{
   const captcha = PLUS.captcha({
-    router:'a',
-    params:{}
+    router:'',
+    params:{},
+    verify:true
   });
   console.log(captcha)
   
@@ -56,7 +45,21 @@ document.querySelector('#captcha').onclick = ()=>{
     console.log('#captcha.catch',err)
   })
 }
-
+// 调试身份验证
+document.querySelector('#mfa').onclick = ()=>{
+  PLUS.authorize({
+    router:'',
+    params:{},
+    verify:true,
+    mail:'',
+  }).emit(res=>{
+    console.log('authorize.emit',res)
+  }).then(res=>{
+    console.log('authorize.then',res)
+  }).catch(err=>{
+    console.log('authorize.err',err)
+  })
+}
 document.querySelector('#hello').onclick = ()=>{
 
   let login = PLUS.login({width:'360',close:true})

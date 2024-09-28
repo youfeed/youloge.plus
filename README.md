@@ -22,25 +22,30 @@
 - 0.0.2 增加`login`单点登录服务(邮箱匿名代理)
 - 0.0.1 初始化项目 构建逻辑 统一模块
 
-### 开始使用
-#### 初始化 
+### 开始使用 & 初始化
+
+- 通知地址：网址参数不变，自动替换路劲部分
+- 请求方式：POST 请求路径：/wallet/versive 请求参数：notify的query
+- 请求头部：Authorization:  <Youloge-Notify signature | Youloge-Apikey apikey> Content-type: application-json
+- 请求内容：{} 以为实际接口为准
+
 ```js
 let PLUS = youloge.plus({
   apikey:'', // 必填*用于加密数据区分开发者
-  notify:'' // 可选*同步通知接口地址[网址参数不变，会替换路劲部分];
-  // 例如：notify:'https://www.xxxx.com/mep/dashboard?a=URL_ADDRESS&b=URL_ADDRESS'
-  // 支付通知地址:https://www.xxxx.com/`wallet/versive`?a=URL_ADDRESS&b=URL_ADDRESS
+  notify:'' // 必填*同步通知接口地址; 注意跨域处理(*) 鉴权处理 解密处理
 });
 ```
-#### 弹窗式 & 内嵌式
-- selector：`null 0 false undefined`为否时则为`弹窗式`
-- selector：当前只渲染第一个div容器，如果需要内嵌多个 需要多次调用
-- selector：`div 选择器时`配置参数优先从 `data-*=""`上选取且会覆盖`js 初始参数`
 
+#### 弹窗式 | 内嵌式 & 可关闭 & 样式配置
 ``` js
 // METHOD => 取值参考下文
 PLUS.METHOD({
-  selector:'#id' // 只取查询到的第一个`Element`
+  "selector":'#id .class' // 可选* 只取查询到的第一个`Element`
+  "close":Bloom, // 可选* 是否允许模态框关闭，默认true,关闭后只能右上角关闭
+  "styled":{ // 可选* 样式配置
+    "dialog":"", // 替换默认弹窗样式
+    "iframe":"", // 替换默认弹窗样式
+  }
   // 其他配置参数
 }).emit(data=>{
   // 监听事件(流程尚未结束)(可选项) * 在`then catch`之前添加监听
@@ -52,62 +57,67 @@ PLUS.METHOD({
 ```
 
 ---
+
 ##  人机验证服务 `METHOD`=`captcha`
 
-- 人机验证通过返回的`signature`只能开发者自己解密
-- 解密有一个`singer`参数，可以临时作为`匿名用户`调用`vip接口`
-- `captcha解密出来的singer` 有效期为`300秒`，过期后需要重新调用
-- `匿名用户`可以调用其他服务：例如发布`匿名评论` `匿名发布文章等`
-- `匿名用户`的发表作品权重很低：不会被纳入搜索引擎且删除不需要其他`开发者审核`
-- `匿名用户`的虚拟邮箱为`null@youloge.com(假的)`昵称为`匿名用户`uuid为`YQasfalskfjklwklahskfhw`
-- 不要给`匿名用户`转账：等同于赞助了
+> 验证客户端环境是否正常：用于`登录邮件`,`支付邮件`,`发表评论`等数据交互的前置条件
+
+- 人机验证通过时有`method params`参数时候，可以进行内部`vip接口`调用
+- `captcha.signature` 有效期为`300秒`，请及时验证并消费。
 
 > 关于`匿名用户`的生成方式还可以使用开发者`singer`代替,如果你自己实现人机验证的话
 
 ``` js
 PLUS.captcha({
-  "state":"string < 64", // 自定义参数 用过通过人机验证后会写入在`signature`中
-}).then(res=>{ 
-  // 成功(流程结束)
+  "uuid":"", // 可选* 优先寻找该`Profile.UUID`本地账户
+  "method":"captcha/verify", // 可选* 下一跳 VIP接口地址
+  "params":{}, // 可选* 下一跳 VIP接口参数
+  "verify":false, // 可选* 人机验证后(或下一跳调用VIP接口后),前端是否同步调用开发者`notify接口验证`
 })
-// 成功返回`signature` 通过解密可以获得`captcha`参数，该参数用于对接验证服务(单次)
+// 在调用`VIP接口`时，调用人身份为：`开发者`
 ```
 
-## 单点登录服务 `METHOD`=`sso` 
+---
 
-- `uuid` 是唯一的且使用不同的`apikey`获取同一个用户 `uuid`都是一样的
-- `signature`可以解密出`uuid:用户ID expire:过期时间 singer:用户凭证`7200秒，3小时
-- `secret` 专门用来刷新凭证`7天有效`,过期必须手动登录再次刷新。
-- 开发者凭证也是该接口：(apikey和apikey的邮箱是同一人，即视为开发者)
+## 身份认证 `METHOD`=`authorize` 
+
+> 验证账户身份正确：用于`用户登录`,`修改账户`,`支付转账`,`商品购买`,`订阅资源`等敏感操作
+
+- 强烈建议开启`同步验证 verify`参数，开发者控制 消费下一跳
+- `verify`为`true`时,返回`expire signrnatrue`并同步通知开发者`authorize/verify`接口,开发者决定是否消费
+- (默认)`verify`为`false`时，内网直接进行下一跳，返回下一跳直接消费数据，返回VIP接口返回数据
 
 ``` js
-PLUS.sso({
-  "close":Bloom, // 
-}).then(res=>{
-  // 登录成功
+PLUS.authorize({
+  "uuid":"", // 可选* 优先指定该`Profile.UUID`账户(本地)；本地无账户，会自动拉起登录窗口
+  "desc":"", // 可选* 描述信息
+  "method":"", // 可选* 下一跳 VIP接口地址
+  "params":{}, // 可选* 下一跳 VIP接口参数
+  "verify":false,
 })
-// 返回的数据前端可以直接展示
-
+// 在调用`VIP接口`时，调用人身份为`已登录账户`
 ```
 
-## 账户渠道充值 `METHOD`=`pay` 
-- 平台货币为:`#1.00RGB ≈ ¥1.0001CNY ≈ $0.1372USD` 灵感来源于`css颜色数值`;
-- 可指定金额
-- 可指定渠道
-- 可指定用户
-- `渠道充值`与`收银台付款`是二个不同的服务：用户充值只能用于`消费 购物 打赏`，不支持`提现`
+---
+
+##  用户登录 `METHOD`=`login`
+
+> 支持第三方快捷登录，这是对`人机验证 captcha`的二次封装，简化了`授权流程`
+
+- 客户端登录后本地会存储登录信息(包括第三方授权登录)，下次可快捷登录;
+- 快捷登录条件：用户登陆过一次且登录所使用的`apikey`与调用者`apikey`相同。
 
 ``` js
-PLUS.pay({
-  "close":Bloom, // 
-}).then(res=>{
-  // 登录成功
+PLUS.login({
+  "uuid":"" "*", // 优先指定该`Profile.UUID`账户(本地)
+  "mail":String "*", // 优先指定`Profile.mail`邮箱(快速填写功能)
+  "verify":false, // 可选* 同步验证 同步通知开发者`login/verify`接口,开发者决定是否消费
 })
-// 返回的数据前端可以直接展示
-
 ```
 
 ##  收银台付款服务 `METHOD`=`payment`
+
+> 这是对`身份认证 authorize`的二次封装，简化了`授权流程`
 
 - 平台货币为:`#1.00RGB ≈ ¥1.0001CNY ≈ $0.1372USD` 灵感来源于`css颜色数值`;
 - 任意用户付款给开发者：`非点对点收款`
@@ -119,15 +129,13 @@ PLUS.pay({
 
 ``` js
 PLUS.payment({
+  "uuid":"" "*", // 优先指定该`Profile.UUID`账户(本地)
   "local":String "*", // 本地订单号 支付成功原样返回
   "money":Number "*", // 整数金额 100 => #1.00RGB
-  "close":Bloom, // 可选参数
+  "verify":false, // 可选* 同步验证 同步通知开发者`payment/verify`接口,开发者决定是否消费
 }).then(res=>{ 
-  // 成功(流程结束)
+  // 成功(消费成功结果或验证同步通知结果)
 })
-//  `本地订单号` 自己维护网站的sku和用户的关系根据本地订单号。
-//  `signature` 解密出的字符串 `官方订单号#本地订单号#支付人UUID#实际支付金额#支付时间` 使用 `JSON`字符串
-
 ```
 
 
@@ -143,7 +151,7 @@ PLUS.payment({
 -  解密参考 算法使用`AES-256-CBC * 2`
 -  signature 前16字节为 iv 
 -  secret 00-32字节为 key_one
--  secret 16-32字节为 key_two
+-  secret 16-64字节为 key_two
 
 ``` php
 public function signature_decrypt($signature,$secret='')
