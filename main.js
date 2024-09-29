@@ -29,9 +29,8 @@ document.querySelector('#login').onclick = ()=>{
 // 调试人机验证
 document.querySelector('#captcha').onclick = ()=>{
   const captcha = PLUS.captcha({
-    router:'',
+    method:'',
     params:{},
-    verify:true
   });
   console.log(captcha)
   
@@ -48,7 +47,7 @@ document.querySelector('#captcha').onclick = ()=>{
 // 调试身份验证
 document.querySelector('#mfa').onclick = ()=>{
   PLUS.authorize({
-    router:'',
+    method:'',
     params:{},
     verify:true,
     mail:'',
