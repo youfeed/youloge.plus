@@ -88,15 +88,46 @@ document.querySelector('#hello').onclick = ()=>{
 // 调试转账支付
 document.querySelector('#payment').onclick = ()=>{
   PLUS.payment({
-    method:'',
-    params:{},
-    verify:true,
-    mail:'',
+    local:'no123456789',
+    // 付款人
+    sender:10000,
+    // 收款金额
+    amount:360,
+    // 支付场景 - 同步通知
+    method:'profile', // profile drive goods
+    // 收款参数 - 同步通知
+    params:{
+      uuid:100,
+    },
   }).emit(res=>{
     console.log('payment.emit',res)
   }).then(res=>{
     console.log('payment.then',res)
   }).catch(err=>{
     console.log('payment.err',err)
+  })
+}
+// 调试云盘支付服务
+document.querySelector('#drive').onclick = ()=>{
+  PLUS.payment({
+    notify:'https://www.youloge.com/captcha/verify?site=125245',
+    //
+    local:'no123456789',
+    // 付款人
+    sender:10000,
+    // 收款金额
+    amount:360,
+    // 支付场景 - 同步通知
+    method:'drive', // profile drive goods
+    // 收款参数 - 同步通知
+    params:{
+      uuid:1000,
+    },
+  }).emit(res=>{
+    console.log('drive.emit',res)
+  }).then(res=>{
+    console.log('drive.then',res)
+  }).catch(err=>{
+    console.log('drive.err',err)
   })
 }
