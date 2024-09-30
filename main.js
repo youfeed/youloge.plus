@@ -111,6 +111,7 @@ document.querySelector('#payment').onclick = ()=>{
 document.querySelector('#drive').onclick = ()=>{
   PLUS.payment({
     notify:'https://www.youloge.com/captcha/verify?site=125245',
+    pathname:'captcha/verify',
     //
     local:'no123456789',
     // 付款人
