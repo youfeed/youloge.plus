@@ -85,3 +85,18 @@ document.querySelector('#hello').onclick = ()=>{
 
 
 }
+// 调试转账支付
+document.querySelector('#payment').onclick = ()=>{
+  PLUS.payment({
+    method:'',
+    params:{},
+    verify:true,
+    mail:'',
+  }).emit(res=>{
+    console.log('payment.emit',res)
+  }).then(res=>{
+    console.log('payment.then',res)
+  }).catch(err=>{
+    console.log('payment.err',err)
+  })
+}
