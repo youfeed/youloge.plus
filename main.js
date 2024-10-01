@@ -116,8 +116,8 @@ document.querySelector('#drive').onclick = ()=>{
     local:'no123456789',
     // 付款人
     sender:10000,
-    // 收款金额
-    amount:360,
+    // 收款金额 1.02
+    amount:102,
     // 支付场景 - 同步通知
     method:'drive', // profile drive goods
     // 收款参数 - 同步通知
