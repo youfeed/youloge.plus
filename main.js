@@ -132,3 +132,28 @@ document.querySelector('#drive').onclick = ()=>{
     console.log('drive.err',err)
   })
 }
+// 调用商城购物服务
+document.querySelector('#goods').onclick = ()=>{
+  PLUS.shopcart({
+    notify:'URL_ADDRESS',
+    pathname:'captcha/verify',
+    //
+    local:'no123456789',
+    // 付款人
+    sender:10000,
+    // 收款金额 1.02
+    amount:102,
+    // 支付场景 - 同步通知
+    method:'goods', // profile drive goods
+    // 收款参数 - 同步通知
+    params:{
+      uuid:1000,
+    },
+  }).emit(res=>{
+    console.log('goods.emit',res)
+  }).then(res=>{
+    console.log('goods.then',res)
+  }).catch(err=>{
+    console.log('goods.err',err)
+  })
+}
