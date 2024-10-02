@@ -141,6 +141,7 @@ document.querySelector('#goods').onclick = ()=>{
     local:'no123456789',
     // 付款人
     sender:10000,
+    buyer:10000,
     // 收款金额 1.02
     amount:102,
     // 支付场景 - 同步通知
