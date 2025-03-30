@@ -3,12 +3,28 @@ import plus from './lib/index.js'
 
 let PLUS = plus({
   debug:'http://localhost:4173', // false
-  apikey:'it-lk1ER3z-iVEDdHRtIxh-jwymtE65cfZwjh2OUOYbBg3E6Z54DILcVgfbi5KYyn5J0OVyCTReXCIaFtgGxdw',
+  apikey:'BqMoCpDJFrG-YEiL5V-eRi0AqaRhn3ace-UUMM48NgAtgH14aCdnSzO8oEF2gYUl5gNtyZQRy3QQS4HZuf5rqkG6Ptz30BMXyeabHGbkfwDrKffMOIh94TzpeUxXPc-j_a-Z4u_4UGVVWFN84YKg4-O90g0LKy4-dyk8sC8r7JI',
   notify:'https://www.youloge.com/yaroslaff/ws-emit?site=125245',
 })
 console.log('PLUS',PLUS)
 
-
+// 调试视频播放
+document.querySelector('#video').onclick = ()=>{
+  PLUS.video({
+    selector:'#video',
+    // styled:{
+    //   dialog:'',
+    //   iframe:'',
+    // }
+    
+  }).emit(res=>{
+    console.info(777777777,'sso.emit',res)
+  }).then(res=>{
+    console.log(777777777,'sso.then',res)
+  }).catch(err=>{
+    console.log(777777777,'sso.catch',err)
+  })
+}
 // 调试单点登录
 document.querySelector('#login').onclick = ()=>{
   PLUS.login({

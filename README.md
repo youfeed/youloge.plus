@@ -7,11 +7,13 @@
 ### [💡 ⚡️ 🛠️ 📦 🔩 🔑 - 接口来源-开放API文档 ](https://youfeed.github.io/plus)
 
 
-> - 建议直接引入CDN 即可使用  `2.77 kB │ gzip: 1.27 kB`
+> - 建议直接引入CDN 即可使用  `3.45 kB │ gzip: 1.61 kB`
 > - `https://unpkg.com/youloge.plus`或者`https://cdn.jsdelivr.net/npm/youloge.plus`
 > - 主动调用 `youloge.plus.METHOD(config)`方法，通过`.then`和`.catch`接收回调,还可添加`.emit` 监听变化
 
 #### 更新日志
+
+- 2.0.0 [20250330] 优化窗口加载逻辑，增加`video` 视频播放器服务
 - 1.9.1 添加`utils`辅助函数，统一事件
 - 1.2.0 优化监听事件，增加窗口新建销毁处理逻辑
 - 1.0.8 引入`notify` 参数：直接对接开发者接口
@@ -31,7 +33,9 @@
 
 ```js
 let PLUS = youloge.plus({
-  apikey:'', // 必填*用于加密数据区分开发者
+  // 如果未填写则从 sessionStorage.youloge.APIKEY 中获取
+  apikey:'', // 必填*用于加密数据区分开发者 
+  // 如果未填写则从 sessionStorage.youloge.NOTIFY 中获取
   notify:'' // 必填*同步通知接口地址; 注意跨域处理(*) 鉴权处理 解密处理
 });
 ```
@@ -40,20 +44,19 @@ let PLUS = youloge.plus({
 ``` js
 // METHOD => 取值参考下文
 PLUS.METHOD({
-  "selector":'#id .class' // 可选* 只取查询到的第一个`Element`
+  // 只取查询到的第一个`Element`
+  "selector":'HTMLElement #id .class null' // 可选* 如果未填写则为`全屏弹窗式`遮罩层
   "close":Bloom, // 可选* 是否允许模态框关闭，默认true,关闭后只能右上角关闭
-  "styled":{ // 可选* 样式配置
-    "dialog":"", // 替换默认弹窗样式
-    "iframe":"", // 替换默认弹窗样式
-  }
-  // 其他配置参数
+  "styled":{ "dialog":"","iframe":"" },// 可选* 样式配置
+  // 不同服务的参数不同，具体参考下文
+  ...other params // 其他配置参数
 }).emit(data=>{
   // 监听事件(流程尚未结束)(可选项) * 在`then catch`之前添加监听
 }).then(res=>{
   // 处理成功(流程结束)
 }).catch(err=>{
   // 处理失败(流程结束)
-})
+});
 ```
 
 ---
@@ -137,7 +140,27 @@ PLUS.payment({
   // 成功(消费成功结果或验证同步通知结果)
 })
 ```
+##  视频点播服务 `METHOD`=`video`
 
+> 视频点播服务，也可以播放其他来源视频 支持`flv`,`m3u8`,`dash`和`mp4`格式
+
+- 优先处理video.uuid的视频点播。
+- 再依次读取 `mp4` > `m3u8` > `dash` > `flv`
+- 长视频(>60秒)的视频，播放器可能会插入贴片广告(可跳过)
+- 开发者务必使用正确的`apikey`，否则无法产生的广告收益无法结算(优先保证视频播放)
+- 广告收收益 结算至主账户名下，可在开发者后台`console`下查看
+
+``` js
+PLUS.payment({
+  "uuid":"" "*", // 优先使用改值该`video.UUID` 视频ID
+  "flv":String "*", // 第三方资源
+  "mp4":String "*", // 第三方资源
+  "m3u8":String "*", // 第三方资源
+  "dash":String "*", // 第三方资源
+}).then(res=>{ 
+  // 成功(消费成功结果或验证同步通知结果)
+})
+```
 
 
 ## 关于数据校验解密
