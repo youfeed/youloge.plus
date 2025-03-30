@@ -10,6 +10,8 @@
 > - 建议直接引入CDN 即可使用  `3.45 kB │ gzip: 1.61 kB`
 > - `https://unpkg.com/youloge.plus`或者`https://cdn.jsdelivr.net/npm/youloge.plus`
 > - 主动调用 `youloge.plus.METHOD(config)`方法，通过`.then`和`.catch`接收回调,还可添加`.emit` 监听变化
+> - `npm install youloge.plus` 或者 `yarn add youloge.plus`
+> - ES6 模块引入 `import usePlus from 'youloge.plus'`
 
 #### 更新日志
 
