@@ -1,7 +1,7 @@
 {
   "name": "youloge.plus",
   "private": false,
-  "version": "2.0.01",
+  "version": "2.0.02",
   "author": "Youloge",
   "description": "youloge.com website dedicated library",
   "type": "module",
