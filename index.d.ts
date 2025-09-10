@@ -1,1 +1,1 @@
-export function plus(config: Object): void
+export function YouPlus(config: Object): void

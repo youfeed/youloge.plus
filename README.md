@@ -8,13 +8,15 @@
 
 
 > - 建议直接引入CDN 即可使用  `3.45 kB │ gzip: 1.61 kB`
-> - `https://unpkg.com/youloge.plus`或者`https://cdn.jsdelivr.net/npm/youloge.plus`
-> - 主动调用 `youloge.plus.METHOD(config)`方法，通过`.then`和`.catch`接收回调,还可添加`.emit` 监听变化
-> - `npm install youloge.plus` 或者 `yarn add youloge.plus`
-> - ES6 模块引入 `import usePlus from 'youloge.plus'`
+> - 一、CDN安装 `https://unpkg.com/youloge.plus`或者`https://cdn.jsdelivr.net/npm/youloge.plus`
+> - 模块安装 `npm install youloge.plus` 或者 `yarn add youloge.plus`
+> - 主动调用 `youloge.plus().METHOD(config)`方法，通过`.then`和`.catch`接收回调,还可添加`.emit` 监听变化
+> - 二、ES6 模块 `import YouPlus from 'youloge.plus'`
+> - 主动调用 `YouPlus().METHOD(config)`方法，通过`.then`和`.catch`接收回调,还可添加`.emit` 监听变化
 
 #### 更新日志
 
+- 2.1.2 [20250910] 规范方法名称`CDN引入为 youloge.plus` `ES6引入为 YouPlus`
 - 2.0.0 [20250330] 优化窗口加载逻辑，增加`video` 视频播放器服务
 - 1.9.1 添加`utils`辅助函数，统一事件
 - 1.2.0 优化监听事件，增加窗口新建销毁处理逻辑
@@ -28,24 +30,17 @@
 
 ### 开始使用 & 初始化
 
-- 通知地址：网址参数不变，自动替换路劲部分
-- 请求方式：POST 请求路径：/wallet/versive 请求参数：notify的query
-- 请求头部：Authorization:  <Youloge-Notify signature | Youloge-Apikey apikey> Content-type: application-json
-- 请求内容：{} 以为实际接口为准
-
 ```js
-let PLUS = youloge.plus({
-  // 如果未填写则从 sessionStorage.youloge.APIKEY 中获取
-  apikey:'', // 必填*用于加密数据区分开发者 
-  // 如果未填写则从 sessionStorage.youloge.NOTIFY 中获取
-  notify:'' // 必填*同步通知接口地址; 注意跨域处理(*) 鉴权处理 解密处理
+const usePlus = YouPlus({
+  // 可选配置项 优先自动从 sessionStorage.youloge.APIKEY 中获取
+  APIKEY?:string, // 必填*用于加密数据区分开发者 
 });
 ```
 
 #### 弹窗式 | 内嵌式 & 可关闭 & 样式配置
 ``` js
 // METHOD => 取值参考下文
-PLUS.METHOD({
+usePlus.METHOD({
   // 只取查询到的第一个`Element`
   "selector":'HTMLElement #id .class null' // 可选* 如果未填写则为`全屏弹窗式`遮罩层
   "close":Bloom, // 可选* 是否允许模态框关闭，默认true,关闭后只能右上角关闭
@@ -63,7 +58,7 @@ PLUS.METHOD({
 
 ---
 
-##  人机验证服务 `METHOD`=`captcha`
+##  人机验证服务 `METHOD`=`useCaptcha`
 
 > 验证客户端环境是否正常：用于`登录邮件`,`支付邮件`,`发表评论`等数据交互的前置条件
 
@@ -73,7 +68,7 @@ PLUS.METHOD({
 > 关于`匿名用户`的生成方式还可以使用开发者`singer`代替,如果你自己实现人机验证的话
 
 ``` js
-PLUS.captcha({
+usePlus.useCaptcha({
   "uuid":"", // 可选* 优先寻找该`Profile.UUID`本地账户
   "method":"captcha/verify", // 可选* 下一跳 VIP接口地址
   "params":{}, // 可选* 下一跳 VIP接口参数
@@ -84,7 +79,7 @@ PLUS.captcha({
 
 ---
 
-## 身份认证 `METHOD`=`authorize` 
+## 身份认证 `METHOD`=`useAuthorize` 
 
 > 验证账户身份正确：用于`用户登录`,`修改账户`,`支付转账`,`商品购买`,`订阅资源`等敏感操作
 
@@ -93,7 +88,7 @@ PLUS.captcha({
 - (默认)`verify`为`false`时，内网直接进行下一跳，返回下一跳直接消费数据，返回VIP接口返回数据
 
 ``` js
-PLUS.authorize({
+usePlus.useAuthorize({
   "uuid":"", // 可选* 优先指定该`Profile.UUID`账户(本地)；本地无账户，会自动拉起登录窗口
   "desc":"", // 可选* 描述信息
   "method":"", // 可选* 下一跳 VIP接口地址
@@ -105,7 +100,7 @@ PLUS.authorize({
 
 ---
 
-##  用户登录 `METHOD`=`login`
+##  用户登录 `METHOD`=`useLogin`
 
 > 支持第三方快捷登录，这是对`人机验证 captcha`的二次封装，简化了`授权流程`
 
@@ -113,14 +108,14 @@ PLUS.authorize({
 - 快捷登录条件：用户登陆过一次且登录所使用的`apikey`与调用者`apikey`相同。
 
 ``` js
-PLUS.login({
+usePlus.useLogin({
   "uuid":"" "*", // 优先指定该`Profile.UUID`账户(本地)
   "mail":String "*", // 优先指定`Profile.mail`邮箱(快速填写功能)
   "verify":false, // 可选* 同步验证 同步通知开发者`login/verify`接口,开发者决定是否消费
 })
 ```
 
-##  收银台付款服务 `METHOD`=`payment`
+##  收银台付款服务 `METHOD`=`usePayment`
 
 > 这是对`身份认证 authorize`的二次封装，简化了`授权流程`
 
@@ -133,7 +128,7 @@ PLUS.login({
 - 开发者收款经过`>T+3 +7 +15`按比例`提现 > 0.6% 0.8% 3% 5%`(配合平台做纳税,实名认证)
 
 ``` js
-PLUS.payment({
+usePlus.usePayment({
   "uuid":"" "*", // 优先指定该`Profile.UUID`账户(本地)
   "local":String "*", // 本地订单号 支付成功原样返回
   "money":Number "*", // 整数金额 100 => #1.00RGB
@@ -142,7 +137,7 @@ PLUS.payment({
   // 成功(消费成功结果或验证同步通知结果)
 })
 ```
-##  视频点播服务 `METHOD`=`video`
+##  视频点播服务 `METHOD`=`useVideo`
 
 > 视频点播服务，也可以播放其他来源视频 支持`flv`,`m3u8`,`dash`和`mp4`格式
 
@@ -153,7 +148,7 @@ PLUS.payment({
 - 广告收收益 结算至主账户名下，可在开发者后台`console`下查看
 
 ``` js
-PLUS.payment({
+usePlus.useVideo({
   "uuid":"" "*", // 优先使用改值该`video.UUID` 视频ID
   "flv":String "*", // 第三方资源
   "mp4":String "*", // 第三方资源
