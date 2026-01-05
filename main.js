@@ -2,7 +2,7 @@ import './style.css'
 import plus from './lib/index.js'
 
 let PLUS = plus({
-  debug:'http://localhost:4173', // false
+  // debug:'http://localhost:4173', // false
   apikey:'BqMoCpDJFrG-YEiL5V-eRi0AqaRhn3ace-UUMM48NgAtgH14aCdnSzO8oEF2gYUl5gNtyZQRy3QQS4HZuf5rqkG6Ptz30BMXyeabHGbkfwDrKffMOIh94TzpeUxXPc-j_a-Z4u_4UGVVWFN84YKg4-O90g0LKy4-dyk8sC8r7JI',
   notify:'https://www.youloge.com/yaroslaff/ws-emit?site=125245',
 })
@@ -10,7 +10,7 @@ console.log('PLUS',PLUS)
 
 // 调试视频播放
 document.querySelector('#video').onclick = ()=>{
-  PLUS.video({
+  PLUS.useVideo({
     selector:'#video',
     // styled:{
     //   dialog:'',
@@ -27,7 +27,7 @@ document.querySelector('#video').onclick = ()=>{
 }
 // 调试单点登录
 document.querySelector('#login').onclick = ()=>{
-  PLUS.login({
+  PLUS.useLogin({
     selector:'#login',
     // styled:{
     //   dialog:'',
@@ -44,7 +44,7 @@ document.querySelector('#login').onclick = ()=>{
 }
 // 调试人机验证
 document.querySelector('#captcha').onclick = ()=>{
-  const captcha = PLUS.captcha({
+  const captcha = PLUS.useCaptcha({
     method:'',
     params:{},
   });
@@ -77,7 +77,7 @@ document.querySelector('#mfa').onclick = ()=>{
 }
 document.querySelector('#hello').onclick = ()=>{
 
-  let login = PLUS.login({width:'360',close:true})
+  let login = PLUS.useLogin({width:'360',close:true})
   // let ssos = ppp.sso({width:'360'})
   // console.log(plus,ppp,sso)
   // let P = plus.sso({
