@@ -3,7 +3,7 @@ import plus from './lib/index.js'
 
 let PLUS = plus({
   // debug:'http://localhost:4173', // false
-  apikey:'BqMoCpDJFrG-YEiL5V-eRi0AqaRhn3ace-UUMM48NgAtgH14aCdnSzO8oEF2gYUl5gNtyZQRy3QQS4HZuf5rqkG6Ptz30BMXyeabHGbkfwDrKffMOIh94TzpeUxXPc-j_a-Z4u_4UGVVWFN84YKg4-O90g0LKy4-dyk8sC8r7JI',
+  apikey:'9999-9d20755cecabb3b8a4d48c3f6986e091',
   notify:'https://www.youloge.com/yaroslaff/ws-emit?site=125245',
 })
 console.log('PLUS',PLUS)
