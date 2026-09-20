@@ -16,6 +16,7 @@
 
 #### 更新日志
 
+- 2.3.0 [20260920] 优化页面唤起方式：尺寸优化
 - 2.2.4 [20260818] 新增`usePasskey` 唤起认证
 - 2.2.0 [20260324] 优化排版,新增`useProfile`,`useSetting`功能
 - 2.1.6 [20260106] 去除`HEAD`检测请求
@@ -45,7 +46,7 @@ const usePlus = YouPlus({
 // METHOD => 取值参考下文
 usePlus.METHOD({
   // 只取查询到的第一个`Element`
-  "selector":'HTMLElement #id .class null' // 可选* 如果未填写则为`全屏弹窗式`遮罩层
+  "selector":'HTMLElement #id .class null' // 可选* 未填写则为`全屏弹窗式`遮罩层 未查到节点则为`弹窗式`
   "close":Bloom, // 可选* 是否允许模态框关闭，默认true,关闭后只能右上角关闭
   "styled":{ "dialog":"","iframe":"" },// 可选* 样式配置
   // 不同服务的参数不同，具体参考下文

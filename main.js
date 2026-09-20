@@ -77,7 +77,7 @@ document.querySelector('#mfa').onclick = ()=>{
 }
 document.querySelector('#hello').onclick = ()=>{
 
-  let login = PLUS.useLogin({width:'360',close:true})
+  let login = PLUS.useLogin({width:'420',close:true})
   // let ssos = ppp.sso({width:'360'})
   // console.log(plus,ppp,sso)
   // let P = plus.sso({
